@@ -29,6 +29,7 @@ export default {
   data() {
     return {
       apiName: 'pollCounterAPI',
+      apiPeopleName: 'peopleAPI',
       votesYes: 0,
       votesNo: 0,
       nickname: this.$cookie.get('nickname'),
@@ -52,7 +53,7 @@ export default {
         }
       }
 
-      const response = await API.post(this.apiName, '/people', init)
+      const response = await API.post(this.apiPeopleName, '/people', init)
 
       console.log(nick)
       console.log(this.$cookie.get('uuid'))
