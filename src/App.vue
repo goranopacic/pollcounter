@@ -63,7 +63,20 @@ export default {
             "nickname" : nick
           }
         }
-        const response = await API.post(this.apiPeopleName, '/people', update)
+
+      var params = {
+          TableName: "peopleDDB",
+          Key:{
+              "uuid": this.uuid
+          },
+          UpdateExpression: "set nickname = :nickname",
+          ExpressionAttributeValues:{
+              ":nickname": this.nick
+          },
+          ReturnValues:"UPDATED_NEW"
+      };
+
+        const response = await API.post(this.apiPeopleName, '/people', params)
 
         this.$cookie.set('nickname',nick)
         this.nickname = nick
