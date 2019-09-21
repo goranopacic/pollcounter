@@ -44,14 +44,21 @@ export default {
         this.uuid = this.$cookie.get('uuid-2')
       }
       
+      const init = {
+        body: {
+          "uuid" : this.uuid,
+          "points" : 2
+        }
+      }
 
+/*
       const init = {
         body: {
           "uuid" : this.uuid,
           "nickname": this.nickname,
           "points" : 2
         }
-      }
+      }*/
 
       const response = await API.post(this.apiPeopleName, '/people', init)
 
