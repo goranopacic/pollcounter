@@ -48,7 +48,8 @@ export default {
       const init = {
         body: {
           "uuid" : this.uuid,
-          "nickname": this.nickname
+          "nickname": this.nickname,
+          "points" : 2
         }
       }
 
