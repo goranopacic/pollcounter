@@ -174,7 +174,7 @@ app.post(path, function(req, res) {
     TableName: tableName,
     Item: req.body
   }
-  dynamodb.put(putItemParams, (err, data) => {
+  dynamodb.update(putItemParams, (err, data) => {
     if(err) {
       res.statusCode = 500;
       res.json({error: err, url: req.url, body: req.body});

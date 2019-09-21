@@ -38,29 +38,37 @@ export default {
   },
   methods: {
     setnickname: async function(nick) {
-      this.$cookie.set('nickname',nick)
-      if (this.$cookie.get('uuid-2') == undefined) {
-        this.$cookie.set('uuid-2',uuidv4())
-        this.uuid = this.$cookie.get('uuid-2')
-      }
-      
-      const init = {
-        body: {
-          "uuid" : this.uuid,
-          "points" : 2
-        }
-      }
 
-/*
-      const init = {
-        body: {
-          "uuid" : this.uuid,
-          "nickname": this.nickname,
-          "points" : 2
-        }
-      }*/
+      if (this.uuid == undefined) {
 
-      const response = await API.post(this.apiPeopleName, '/people', init)
+        const newUuid = uuidv4()
+        const init = {
+          body: {
+            "nickname" : nick,
+            "uuid" : newUuid,
+            "points" : 0
+          }
+        }
+        const response = await API.put(this.apiPeopleName, '/people', init)
+
+        this.$cookie.set('nickname',nick)
+        this.nickname = nick
+        this.$cookie.set('uuid-3',newUuid)
+        this.uuid = newUuid
+
+      } else {
+        const update = {
+          body: {
+            "uuid" : this.uuid,
+            "points" : 2
+          }
+        }
+        const response = await API.post(this.apiPeopleName, '/people', update)
+
+        this.$cookie.set('nickname',nick)
+        this.nickname = nick
+
+      }    
 
       console.log(nick)
       console.log(this.$cookie.get('uuid'))
