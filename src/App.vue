@@ -1,7 +1,8 @@
 <template>
-  <div id="app" class="hello"><h1>Welcome to the Serverless Voting App. Now with Amplify!</h1>
-      <h4>Click to vote on this very important issue.</h4>
-      <h4>You can vote as many times as you like. Click away!</h4><b-row align-h="center" class="mt-5">
+  <div id="app" class="hello"><h1>Awsome Day Belgrade 2019</h1>
+      <h4>Enter your nickname: <input v-model="nickname" placeholder="enter your nickname" ><b-button size="lg" variant="primary" @click="setnickname(nickname)">Button</b-button></h4>
+      <h4>Hi {{ nickname }} {{ uuid }}</h4>
+      <b-row align-h="center" class="mt-5">
       <b-card-group deck>
         <b-card bg-variant="success" text-variant="white" header="Vote Yes" class="text-center" footer-tag="footer">
           <b-card-text>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</b-card-text>
@@ -21,6 +22,7 @@
 </template>
 
 <script>
+const uuidv4 = require('uuid/v4');
 import { API } from 'aws-amplify'
 export default {
   name: 'app',
@@ -28,10 +30,31 @@ export default {
     return {
       apiName: 'pollCounterAPI',
       votesYes: 0,
-      votesNo: 0
+      votesNo: 0,
+      nickname: this.$cookie.get('nickname'),
+      uuid: this.$cookie.get('uuid-1')
     }
   },
   methods: {
+    setnickname: async function(nick) {
+      this.$cookie.set('nickname',nick)
+      if (this.$cookie.get('uuid-1') == undefined) {
+        this.$cookie.set('uuid-1',uuidv4())
+      }
+
+      const init = {
+        queryStringParameters: {
+          "uuid" : this.uuid,
+          "nickname": this.nickname,
+          "points": 1
+        }
+      }
+
+      const response = await API.post(this.apiName, '/people', init)
+
+      console.log(nick)
+      console.log(this.$cookie.get('uuid'))
+    },
     vote: async function (vote) {
       const init = {
         queryStringParameters: {

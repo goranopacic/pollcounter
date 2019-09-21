@@ -3,6 +3,10 @@
 		"pollCounterDDB": {
 			"service": "DynamoDB",
 			"providerPlugin": "awscloudformation"
+		},
+		"peopleDDB": {
+			"service": "DynamoDB",
+			"providerPlugin": "awscloudformation"
 		}
 	},
 	"function": {
@@ -20,6 +24,21 @@
 					]
 				}
 			]
+		},
+		"peopleFunction": {
+			"service": "Lambda",
+			"providerPlugin": "awscloudformation",
+			"build": true,
+			"dependsOn": [
+				{
+					"category": "storage",
+					"resourceName": "peopleDDB",
+					"attributes": [
+						"Name",
+						"Arn"
+					]
+				}
+			]
 		}
 	},
 	"api": {
@@ -30,6 +49,20 @@
 				{
 					"category": "function",
 					"resourceName": "pollCounterFunction",
+					"attributes": [
+						"Name",
+						"Arn"
+					]
+				}
+			]
+		},
+		"peopleAPI": {
+			"service": "API Gateway",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [
+				{
+					"category": "function",
+					"resourceName": "peopleFunction",
 					"attributes": [
 						"Name",
 						"Arn"
