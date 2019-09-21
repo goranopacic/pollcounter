@@ -46,7 +46,7 @@ export default {
       
 
       const init = {
-        queryStringParameters: {
+        body: {
           "uuid" : this.uuid,
           "nickname": this.nickname,
           "points": 1
