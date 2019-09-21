@@ -32,15 +32,17 @@ export default {
       votesYes: 0,
       votesNo: 0,
       nickname: this.$cookie.get('nickname'),
-      uuid: this.$cookie.get('uuid-1')
+      uuid: this.$cookie.get('uuid-2')
     }
   },
   methods: {
     setnickname: async function(nick) {
       this.$cookie.set('nickname',nick)
-      if (this.$cookie.get('uuid-1') == undefined) {
-        this.$cookie.set('uuid-1',uuidv4())
+      if (this.$cookie.get('uuid-2') == undefined) {
+        this.$cookie.set('uuid-2',uuidv4())
+        this.uuid = this.$cookie.get('uuid-2')
       }
+      
 
       const init = {
         queryStringParameters: {
