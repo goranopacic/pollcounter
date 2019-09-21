@@ -60,13 +60,12 @@ export default {
 
         var update = {
           body : {
-            TableName: "peopleDDB",
             Key:{
                 "uuid": this.uuid
             },
             UpdateExpression: "set nickname = :nickname",
-            ExpressionAttributeValues:{
-                ":nickname": this.nick
+            ExpressionAttributeValues: {
+                ":nickname": nick
             },
             ReturnValues:"UPDATED_NEW"
           }
@@ -100,7 +99,7 @@ export default {
   },
   created () {
     this.updateVotes()
-    setInterval(this.updateVotes, 3000)
+    //setInterval(this.updateVotes, 3000)
   }
 }
 </script>
