@@ -72,7 +72,7 @@ export default {
           }
         };
 
-        const response = await API.post(this.apiPeopleName, '/people', params)
+        const response = await API.post(this.apiPeopleName, '/people', update)
 
         this.$cookie.set('nickname',nick)
         this.nickname = nick
