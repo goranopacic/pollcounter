@@ -71,7 +71,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "pollcounter-dev-20190921135348-deployment",
-					"S3Key": "amplify-builds/peopleFunction-1569072520-latest-build.zip"
+					"S3Key": "amplify-builds/peopleFunction-1569086131-latest-build.zip"
 				}
 			}
 		},
@@ -81,12 +81,12 @@
 				"RoleName": {
 					"Fn::If": [
 						"ShouldNotCreateEnvResources",
-						"pollcounterLambdaRoleea3c90ec",
+						"pollcounterLambdaRoleee2251e4",
 						{
 							"Fn::Join": [
 								"",
 								[
-									"pollcounterLambdaRoleea3c90ec",
+									"pollcounterLambdaRoleee2251e4",
 									"-",
 									{
 										"Ref": "env"

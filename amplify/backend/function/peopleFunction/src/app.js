@@ -25,8 +25,8 @@ if(process.env.ENV && process.env.ENV !== "NONE") {
 const userIdPresent = false; // TODO: update in case is required to use that definition
 const partitionKeyName = "uuid";
 const partitionKeyType = "S";
-const sortKeyName = "nickname";
-const sortKeyType = "S";
+const sortKeyName = "";
+const sortKeyType = "";
 const hasSortKey = sortKeyName !== "";
 const path = "/people";
 const UNAUTH = 'UNAUTH';

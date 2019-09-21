@@ -1,7 +1,5 @@
 {
     "tableName": "peopleDDB",
     "partitionKeyName": "uuid",
-    "partitionKeyType": "S",
-    "sortKeyName": "nickname",
-    "sortKeyType": "S"
+    "partitionKeyType": "S"
 }
