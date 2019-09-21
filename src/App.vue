@@ -33,7 +33,7 @@ export default {
       votesYes: 0,
       votesNo: 0,
       nickname: this.$cookie.get('nickname'),
-      uuid: this.$cookie.get('uuid-2')
+      uuid: this.$cookie.get('uuid-3')
     }
   },
   methods: {
@@ -60,7 +60,7 @@ export default {
         const update = {
           body: {
             "uuid" : this.uuid,
-            "points" : 2
+            "nickname" : nick
           }
         }
         const response = await API.post(this.apiPeopleName, '/people', update)
