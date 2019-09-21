@@ -1,0 +1,14 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "pollcounter-dev-20190921135348-authRole",
+            "UnauthRoleArn": "arn:aws:iam::408012700083:role/pollcounter-dev-20190921135348-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::408012700083:role/pollcounter-dev-20190921135348-authRole",
+            "Region": "eu-west-1",
+            "DeploymentBucketName": "pollcounter-dev-20190921135348-deployment",
+            "UnauthRoleName": "pollcounter-dev-20190921135348-unauthRole",
+            "StackName": "pollcounter-dev-20190921135348",
+            "StackId": "arn:aws:cloudformation:eu-west-1:408012700083:stack/pollcounter-dev-20190921135348/79803110-dc66-11e9-9186-02fa7ab4594c"
+        }
+    }
+}
