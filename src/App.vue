@@ -57,24 +57,20 @@ export default {
         this.uuid = newUuid
 
       } else {
-        const update = {
-          body: {
-            "uuid" : this.uuid,
-            "nickname" : nick
-          }
-        }
 
-      var params = {
-          TableName: "peopleDDB",
-          Key:{
-              "uuid": this.uuid
-          },
-          UpdateExpression: "set nickname = :nickname",
-          ExpressionAttributeValues:{
-              ":nickname": this.nick
-          },
-          ReturnValues:"UPDATED_NEW"
-      };
+        var update = {
+          body : {
+            TableName: "peopleDDB",
+            Key:{
+                "uuid": this.uuid
+            },
+            UpdateExpression: "set nickname = :nickname",
+            ExpressionAttributeValues:{
+                ":nickname": this.nick
+            },
+            ReturnValues:"UPDATED_NEW"
+          }
+        };
 
         const response = await API.post(this.apiPeopleName, '/people', params)
 
