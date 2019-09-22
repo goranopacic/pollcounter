@@ -18,6 +18,16 @@
         </li>
       </ul>
     </b-row>
+
+    <b-row align-h="center" class="mt-5">
+      <ul id="toplist">
+        <li v-for="person in sortedArrayPoints(people)">
+          {{ person.nickname }} {{ person.points }} 
+        </li>
+      </ul>
+    </b-row>
+
+
   </div>  
 </template>
 
@@ -35,10 +45,14 @@ export default {
       nickname: this.$cookie.get('nickname-5'),
       uuid: this.$cookie.get('uuid-5'),
       points: 0,
-      questions: []
+      questions: [],
+      people: []
     }
   },
   methods: {
+    sortedArrayPoints: function(array) {
+      return _.orderBy(array,'points','desc');
+    },
     sortedArray: function(array) {
       return _.orderBy(array,'ordinalNo','asc');
     },
@@ -115,6 +129,12 @@ export default {
       this.questions = response
       console.log(response)
     },
+    loadPeople: async function() {
+      const response = await API.get(this.apiPeopleName, '/people/all')
+      this.people = response
+      console.log(response)
+    },
+
     answer: async function(questionTitle, questionId, optionId, answerValue, answerPoints) {
 
       const answer = {
@@ -128,6 +148,8 @@ export default {
 
       const response = await API.post(this.apiAnswerName, '/answer',answer)
       this.points = response.data
+
+      this.loadPeople()
     }
 
   },
@@ -136,6 +158,7 @@ export default {
       this.updateVotes()
       //setInterval(this.updateVotes, 3000)
       this.loadQuestions()
+      this.loadPeople()
     }
 
   }
