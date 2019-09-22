@@ -1,0 +1,18 @@
+{
+    "permissions": {
+        "storage": {
+            "peopleDDB": [
+                "create",
+                "read",
+                "update",
+                "delete"
+            ],
+            "answerDDB": [
+                "create",
+                "read",
+                "update",
+                "delete"
+            ]
+        }
+    }
+}

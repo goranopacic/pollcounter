@@ -1,22 +1,22 @@
 <template>
   <div id="app" class="hello"><h1>Awsome Day Belgrade 2019</h1>
       <h4>Enter your nickname: <input v-model="nickname" placeholder="enter your nickname" ><b-button size="lg" variant="primary" @click="setnickname(nickname)">Button</b-button></h4>
-      <h4>Hi {{ nickname }} {{ uuid }}</h4>
-      <b-row align-h="center" class="mt-5">
-      <b-card-group deck>
-        <b-card bg-variant="success" text-variant="white" header="Vote Yes" class="text-center" footer-tag="footer">
-          <b-card-text>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</b-card-text>
-          <b-button size="lg" variant="primary"  @click="vote('yes')">Button</b-button>
-          <em slot="footer">{{ votesYes }} voted</em>
-        </b-card><b-card bg-variant="danger" text-variant="white" header="Vote No" class="text-center" footer-tag="footer">
-          <b-card-text>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</b-card-text>
-          <b-button size="lg" variant="primary" @click="vote('no')">Button</b-button>
-          <em slot="footer">{{ votesNo }} voted</em>
-        </b-card>
-      </b-card-group>
-    </b-row>
+      <h4>Hi {{ nickname }} {{ uuid }} {{points}}</h4>
     <b-row align-h="center" class="mt-5">
-      <p>Questions? Ask James <a href="https://twitter.com/jbesw">@jbesw</a>.</p>
+      <ul id="example-1">
+        <li v-for="question in sortedArray(questions)">
+
+          {{ question.title }}  
+          
+              <ul id="example-2">
+              <li v-for="option in sortedArray(question.options)">
+                {{ option.title }} {{ question.questionid }} {{ option.optionId }}
+                <b-button size="lg" variant="primary" @click="answer(question.title,question.questionid,option.optionId,true,option.points)">Button</b-button>
+              </li>
+            </ul>
+
+        </li>
+      </ul>
     </b-row>
   </div>  
 </template>
@@ -30,13 +30,18 @@ export default {
     return {
       apiName: 'pollCounterAPI',
       apiPeopleName: 'peopleAPI',
-      votesYes: 0,
-      votesNo: 0,
+      apiQuestionName: 'questionAPI',
+      apiAnswerName: 'answerAPI',
       nickname: this.$cookie.get('nickname'),
-      uuid: this.$cookie.get('uuid-3')
+      uuid: this.$cookie.get('uuid-3'),
+      points: 0,
+      questions: []
     }
   },
   methods: {
+    sortedArray: function(array) {
+      return _.orderBy(array,'ordinalNo','asc');
+    },
     setnickname: async function(nick) {
 
       if (this.uuid == undefined) {
@@ -55,6 +60,8 @@ export default {
         this.nickname = nick
         this.$cookie.set('uuid-3',newUuid)
         this.uuid = newUuid
+
+        this.loadQuestions()
 
       } else {
 
@@ -92,14 +99,45 @@ export default {
       if (vote === 'no') this.votesNo = response.data.Attributes.votesNo
     },
     updateVotes: async function () {
-      const response = await API.get(this.apiName, '/votes/poll-001')
-      this.votesNo = response[0].votesNo
-      this.votesYes = response[0].votesYes    
+
+      const answer = {
+        body: {
+          "person" : this.uuid
+        }
+      }
+
+      const response = await API.get(this.apiPeopleName, '/people/' + this.uuid)
+      console.log(response)
+      this.points = response[0].points  
+    },
+    loadQuestions: async function() {
+      const response = await API.get(this.apiQuestionName, '/question/all')
+      this.questions = response
+      console.log(response)
+    },
+    answer: async function(questionTitle, questionId, optionId, answerValue, answerPoints) {
+
+      const answer = {
+        body: {
+          "person" : this.uuid,
+          "questionId" : questionId,
+          "optionId" : optionId,
+          "points" : answerPoints
+        }
+      }
+
+      const response = await API.post(this.apiAnswerName, '/answer',answer)
+      this.points = response.data
     }
+
   },
   created () {
-    this.updateVotes()
-    //setInterval(this.updateVotes, 3000)
+    if (this.uuid != undefined) {
+      this.updateVotes()
+      //setInterval(this.updateVotes, 3000)
+      this.loadQuestions()
+    }
+
   }
 }
 </script>

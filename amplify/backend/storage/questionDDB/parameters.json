@@ -1,0 +1,7 @@
+{
+    "tableName": "questionDDB",
+    "partitionKeyName": "questionid",
+    "partitionKeyType": "N",
+    "sortKeyName": "ordinalNo",
+    "sortKeyType": "N"
+}

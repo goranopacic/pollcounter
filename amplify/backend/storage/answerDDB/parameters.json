@@ -1,0 +1,7 @@
+{
+    "tableName": "answerDDB",
+    "partitionKeyName": "person",
+    "partitionKeyType": "S",
+    "sortKeyName": "questionId",
+    "sortKeyType": "N"
+}
