@@ -56,9 +56,9 @@ export default {
         }
         const response = await API.put(this.apiPeopleName, '/people', init)
 
-        this.$cookie.set('nickname',nick)
+        this.$cookie.set('nickname',nick, { expires: '1Y' })
         this.nickname = nick
-        this.$cookie.set('uuid-3',newUuid)
+        this.$cookie.set('uuid-3',newUuid, { expires: '1Y' })
         this.uuid = newUuid
 
         this.loadQuestions()
@@ -86,7 +86,7 @@ export default {
       }    
 
       console.log(nick)
-      console.log(this.$cookie.get('uuid'))
+      console.log(this.$cookie.get('uuid-3'))
     },
     vote: async function (vote) {
       const init = {
