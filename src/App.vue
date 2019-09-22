@@ -32,8 +32,8 @@ export default {
       apiPeopleName: 'peopleAPI',
       apiQuestionName: 'questionAPI',
       apiAnswerName: 'answerAPI',
-      nickname: this.$cookie.get('nickname'),
-      uuid: this.$cookie.get('uuid-3'),
+      nickname: this.$cookie.get('nickname-5'),
+      uuid: this.$cookie.get('uuid-5'),
       points: 0,
       questions: []
     }
@@ -56,9 +56,9 @@ export default {
         }
         const response = await API.put(this.apiPeopleName, '/people', init)
 
-        this.$cookie.set('nickname',nick, { expires: '1Y' })
+        this.$cookie.set('nickname-5',nick, { expires: '1Y' })
         this.nickname = nick
-        this.$cookie.set('uuid-3',newUuid, { expires: '1Y' })
+        this.$cookie.set('uuid-5',newUuid, { expires: '1Y' })
         this.uuid = newUuid
 
         this.loadQuestions()
@@ -86,7 +86,7 @@ export default {
       }    
 
       console.log(nick)
-      console.log(this.$cookie.get('uuid-3'))
+      console.log(this.$cookie.get('uuid-5'))
     },
     vote: async function (vote) {
       const init = {
