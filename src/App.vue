@@ -43,8 +43,8 @@ export default {
       apiPeopleName: 'peopleAPI',
       apiQuestionName: 'questionAPI',
       apiAnswerName: 'answerAPI',
-      nickname: this.$cookie.get('nickname-5'),
-      uuid: this.$cookie.get('uuid-5'),
+      nickname: this.$cookie.get('nickname-7'),
+      uuid: this.$cookie.get('uuid-7'),
       points: 0,
       questions: [],
       people: [],
@@ -65,19 +65,22 @@ export default {
 
       if (this.uuid == undefined) {
 
+        var d = new Date()
+
         const newUuid = uuidv4()
         const init = {
           body: {
             "nickname" : nick,
             "uuid" : newUuid,
-            "points" : 0
+            "points" : 0,
+            "timeStart" : '' + d.getTime()
           }
         }
         const response = await API.put(this.apiPeopleName, '/people', init)
 
-        this.$cookie.set('nickname-5',nick, { expires: '1Y' })
+        this.$cookie.set('nickname-7',nick, { expires: '1Y' })
         this.nickname = nick
-        this.$cookie.set('uuid-5',newUuid, { expires: '1Y' })
+        this.$cookie.set('uuid-7',newUuid, { expires: '1Y' })
         this.uuid = newUuid
         this.isLoggedIn = true
 
@@ -107,14 +110,14 @@ export default {
       }    
 
       console.log(nick)
-      console.log(this.$cookie.get('uuid-5'))
+      console.log(this.$cookie.get('uuid-7'))
       this.$router.push('/prize-game').catch(err => {})
     },
     changeNickname() {
       //this.uuid = undefined
       //this.nickname = ''
       //this.points = 0
-      //this.isLoggedIn = false
+      this.isLoggedIn = false
     },
     // vote: async function (vote) {
     //   const init = {

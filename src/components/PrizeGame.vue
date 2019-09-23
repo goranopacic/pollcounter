@@ -80,7 +80,7 @@
                                     console.log(questionId)
                                     console.log(points)
                                     if (points > 0 || points == 0) {
-                                        if (points == 10) {
+                                        if (points > 0) {
                                             // points 10
                                             questionOptions[n]['points1'] = 'success'
                                         } else {
