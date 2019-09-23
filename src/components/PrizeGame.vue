@@ -39,7 +39,7 @@
                 apiName: 'pollCounterAPI',
                 apiQuestionName: 'questionAPI',
                 apiAnswerName: 'answerAPI',
-                uuid: this.$cookie.get('uuid-5'),
+                uuid: this.$cookie.get('uuid-9'),
                 points: 0,
                 questions: [],
                 answers: []
@@ -63,6 +63,7 @@
             // },
             loadQuestions: async function() {
                 let response = await API.get(this.apiQuestionName, '/question/all')
+                
                 for (let i in response) {
                     let questionOptions = response[i].options
                     let questionId = response[i].questionid
@@ -98,7 +99,46 @@
                         }
                     }
                 }
+                
                 this.questions = response
+                
+            },
+            drawAnswers: async function() {
+                for (let i in this.questions) {
+                    let questionOptions = this.questions[i].options
+                    let questionId = this.questions[i].questionid
+                    // debugger
+
+                    for (let a in this.answers) {
+                        let answer = this.answers[a]
+                        if (answer.questionId == questionId) {
+
+                            for (let n in questionOptions) {
+                                let option = questionOptions[n]
+                                if (answer.optionId == option.optionId) {
+                                    
+                                    let points = answer.points
+                                    console.log(questionId)
+                                    console.log(points)
+                                    if (points > 0 || points == 0) {
+                                        if (points > 0) {
+                                            // points 10
+                                            questionOptions[n]['points1'] = 'success'
+                                        } else {
+                                            // points 0
+                                            console.log('points 0')
+                                            questionOptions[n]['points1'] = 'invalid'
+                                        }
+                                    } else {
+                                        // no answer
+                                        questionOptions[n]['points1'] = 'default'
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                }
             },
             loadAnswers: async function() { 
                 const answer = {
@@ -118,12 +158,13 @@
             },
             answer: async function(questionTitle, questionId, optionId, answerValue, answerPoints) {
 
-                console.log("A: " + this.answers)
+                var containsAnswer = false;
 
                 for (let a in this.answers) {
                     console.log("Q: " + this.answers[a].questionId)
                     if (this.answers[a].questionId == questionId) {
                         answerPoints = answerPoints/2;
+                        containsAnswer = true;
                     }
                 }
 
@@ -139,6 +180,16 @@
                 const response = await API.post(this.apiAnswerName, '/answer',answer)
                 this.points = response.data
                 this.$parent.points = response.data
+
+                if (!containsAnswer) {
+                    this.answers.push({
+                    "person" : this.uuid,
+                    "questionId" : questionId,
+                    "optionId" : optionId,
+                    "points" : answerPoints
+                    })
+                    drawAnswers();
+                }
             },
             selectOption(option, options) {
                 console.log(options)

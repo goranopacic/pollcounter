@@ -43,9 +43,13 @@ export default {
             console.log(response)
         },
         sortedArrayPoints: function(array) {
-            return _.orderBy(array,'points','desc');
-        },
+            //return _.orderBy(array,'points','desc');
+            return array.sort(byPointsAndTime)
+        }
     },
+}
+function byPointsAndTime(a, b){
+    return b.points * 100000000000000 * b.timeStart - a.points * 100000000000000 * a.timeStart; // sort score desc
 }
 </script>
 
