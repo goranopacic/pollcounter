@@ -1,31 +1,55 @@
 <template>
   <div id="app" class="hello"><h1>Awsome Day Belgrade 2019</h1>
-      <h4>Enter your nickname: <input v-model="nickname" placeholder="enter your nickname" ><b-button size="lg" variant="primary" @click="setnickname(nickname)">Button</b-button></h4>
-      <h4>Hi {{ nickname }} {{ uuid }} {{points}}</h4>
-    <b-row align-h="center" class="mt-5">
-      <ul id="example-1">
-        <li v-for="question in sortedArray(questions)">
+    <!-- login -->
+    <h4 v-if="!isLoggedIn">Enter your nickname: <input v-model="nickname" placeholder="enter your nickname">
+      <b-button 
+        size="lg" 
+        variant="primary" 
+        @click="setnickname(nickname)"
+      >
+        Set nickname
+      </b-button>
+    </h4>
+    
+    <!-- content -->
+    <div v-if="isLoggedIn">
+      <h4 v-if="isLoggedIn">Hi {{ nickname }}!</h4>
 
-          {{ question.title }}  
-          
-              <ul id="example-2">
-              <li v-for="option in sortedArray(question.options)">
-                {{ option.title }} {{ question.questionid }} {{ option.optionId }}
-                <b-button size="lg" variant="primary" @click="answer(question.title,question.questionid,option.optionId,true,option.points)">Button</b-button>
-              </li>
-            </ul>
+        <div class="mt-2 mb-3">
+          <router-link class="p-2 rt-link" to="/agenda">Agenda</router-link>
+          <router-link class="p-2 rt-link" to="/prize-game">Prize Game</router-link>
+          <router-link class="p-2 rt-link" to="/high-score">High Score</router-link>
+          <router-link class="p-2 rt-link" to="/aws-ug-belgrade">AWS UG Belgrade</router-link>
+        </div>
 
-        </li>
-      </ul>
-    </b-row>
+        <router-view></router-view>
 
-    <b-row align-h="center" class="mt-5">
-      <ul id="toplist">
-        <li v-for="person in sortedArrayPoints(people)">
-          {{ person.nickname }} {{ person.points }} 
-        </li>
-      </ul>
-    </b-row>
+      <!-- <b-row align-h="center" class="mt-5">
+        <ul id="example-1">
+          <li v-for="question in sortedArray(questions)">
+
+            {{ question.title }}  
+            
+                <ul id="example-2">
+                <li v-for="option in sortedArray(question.options)">
+                  {{ option.title }} {{ question.questionid }} {{ option.optionId }}
+                  <b-button size="lg" variant="primary" @click="answer(question.title,question.questionid,option.optionId,true,option.points)">Button</b-button>
+                </li>
+              </ul>
+
+          </li>
+        </ul>
+      </b-row>
+
+      <b-row align-h="center" class="mt-5">
+        <ul id="toplist">
+          <li v-for="person in sortedArrayPoints(people)">
+            {{ person.nickname }} {{ person.points }} 
+          </li>
+        </ul>
+      </b-row> -->
+    </div>
+
 
 
   </div>  
@@ -49,13 +73,18 @@ export default {
       people: []
     }
   },
+  computed: {
+      isLoggedIn() {
+          return this.$cookie.get('uuid-5') ? true : false
+      },
+  },
   methods: {
-    sortedArrayPoints: function(array) {
-      return _.orderBy(array,'points','desc');
-    },
-    sortedArray: function(array) {
-      return _.orderBy(array,'ordinalNo','asc');
-    },
+    // sortedArrayPoints: function(array) {
+    //   return _.orderBy(array,'points','desc');
+    // },
+    // sortedArray: function(array) {
+    //   return _.orderBy(array,'ordinalNo','asc');
+    // },
     setnickname: async function(nick) {
 
       if (this.uuid == undefined) {
@@ -75,7 +104,7 @@ export default {
         this.$cookie.set('uuid-5',newUuid, { expires: '1Y' })
         this.uuid = newUuid
 
-        this.loadQuestions()
+        // this.loadQuestions()
 
       } else {
 
@@ -102,38 +131,38 @@ export default {
       console.log(nick)
       console.log(this.$cookie.get('uuid-5'))
     },
-    vote: async function (vote) {
-      const init = {
-        queryStringParameters: {
-          vote
-        }
-      }
-      const response = await API.post(this.apiName, '/votes', init)
-      if (vote === 'yes') this.votesYes = response.data.Attributes.votesYes
-      if (vote === 'no') this.votesNo = response.data.Attributes.votesNo
-    },
-    updateVotes: async function () {
+    // vote: async function (vote) {
+    //   const init = {
+    //     queryStringParameters: {
+    //       vote
+    //     }
+    //   }
+    //   const response = await API.post(this.apiName, '/votes', init)
+    //   if (vote === 'yes') this.votesYes = response.data.Attributes.votesYes
+    //   if (vote === 'no') this.votesNo = response.data.Attributes.votesNo
+    // },
+    // updateVotes: async function () {
 
-      const answer = {
-        body: {
-          "person" : this.uuid
-        }
-      }
+    //   const answer = {
+    //     body: {
+    //       "person" : this.uuid
+    //     }
+    //   }
 
-      const response = await API.get(this.apiPeopleName, '/people/' + this.uuid)
-      console.log(response)
-      this.points = response[0].points  
-    },
-    loadQuestions: async function() {
-      const response = await API.get(this.apiQuestionName, '/question/all')
-      this.questions = response
-      console.log(response)
-    },
-    loadPeople: async function() {
-      const response = await API.get(this.apiPeopleName, '/people/all')
-      this.people = response
-      console.log(response)
-    },
+    //   const response = await API.get(this.apiPeopleName, '/people/' + this.uuid)
+    //   console.log(response)
+    //   this.points = response[0].points  
+    // },
+    // loadQuestions: async function() {
+    //   const response = await API.get(this.apiQuestionName, '/question/all')
+    //   this.questions = response
+    //   console.log(response)
+    // },
+    // loadPeople: async function() {
+    //   const response = await API.get(this.apiPeopleName, '/people/all')
+    //   this.people = response
+    //   console.log(response)
+    // },
 
     answer: async function(questionTitle, questionId, optionId, answerValue, answerPoints) {
 
@@ -155,10 +184,10 @@ export default {
   },
   created () {
     if (this.uuid != undefined) {
-      this.updateVotes()
+      // this.updateVotes()
       //setInterval(this.updateVotes, 3000)
-      this.loadQuestions()
-      this.loadPeople()
+      // this.loadQuestions()
+      // this.loadPeople()
     }
 
   }
@@ -173,5 +202,18 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+.rt-link {
+  color: black;
+}
+
+.rt-link:hover {
+  color: black;
+}
+
+.router-link-active {
+  background-color: #FF9900;
+  color: black;
 }
 </style>
