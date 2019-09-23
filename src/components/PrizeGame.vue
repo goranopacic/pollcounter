@@ -37,7 +37,7 @@
                 apiName: 'pollCounterAPI',
                 apiQuestionName: 'questionAPI',
                 apiAnswerName: 'answerAPI',
-                // uuid: this.$cookie.get('uuid-5'),
+                uuid: this.$cookie.get('uuid-5'),
                 points: 0,
                 questions: [],
                 answers: []
@@ -75,14 +75,15 @@
                                 if (answer.optionId == option.optionId) {
                                     
                                     let points = answer.points
-                                    // console.log(questionId)
-                                    // console.log(points)
+                                    console.log(questionId)
+                                    console.log(points)
                                     if (points > 0 || points == 0) {
                                         if (points == 10) {
                                             // points 10
                                             questionOptions[n]['points1'] = 'success'
                                         } else {
                                             // points 0
+                                            console.log('points 0')
                                             questionOptions[n]['points1'] = 'invalid'
                                         }
                                     } else {
@@ -92,29 +93,23 @@
 
                                 }
                             }
-   
                         }
                     }
-                    // for (let n in questionOptions) {
-                    //     questionOptions[n]['selected'] = false
-                    // }
                 }
                 this.questions = response
-                // console.log(response)
             },
             loadAnswers: async function() { 
                 const answer = {
                     body: {
-                        "person" : this.$parent.uuid//this.uuid
+                        "person" : this.uuid
                     }
                 }
 
-                const response = await API.post(this.apiAnswerName, '/answer/person', answer)
+                // const response = await API.post(this.apiAnswerName, '/answer/person', answer)
+                const response = {}
+
                 this.answers = response
-
                 this.loadQuestions()
-
-                // console.log(response)
             },
             sortedArray: function(array) {
                 return _.orderBy(array,'ordinalNo','asc');
@@ -123,7 +118,7 @@
 
                 const answer = {
                     body: {
-                    "person" : this.$parent.uuid,//this.uuid,
+                    "person" : this.uuid,
                     "questionId" : questionId,
                     "optionId" : optionId,
                     "points" : answerPoints
@@ -135,7 +130,7 @@
                 this.$parent.points = response.data
             },
             selectOption(option, options) {
-                // console.log(options)
+                console.log(options)
                 for (let i in options) {
                     options[i]['points1'] = 'default'
                 }
@@ -148,7 +143,6 @@
                 }
                 
                 this.$forceUpdate();
-                // console.log(option)
             }
         },
     }
@@ -161,11 +155,6 @@
 
 .submit-btn {
     background-color: #ddd;
-}
-
-.selected {
-    /* background-color: #146eb4;
-    color: white; */
 }
 
 .selected-true {

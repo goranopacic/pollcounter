@@ -103,6 +103,7 @@ export default {
         this.$cookie.set('nickname',nick)
         this.nickname = nick
         this.isLoggedIn = true
+
       }    
 
       console.log(nick)
