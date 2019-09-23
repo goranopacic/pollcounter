@@ -43,8 +43,8 @@ export default {
       apiPeopleName: 'peopleAPI',
       apiQuestionName: 'questionAPI',
       apiAnswerName: 'answerAPI',
-      nickname: this.$cookie.get('nickname-9'),
-      uuid: this.$cookie.get('uuid-9'),
+      nickname: this.$cookie.get('nickname-10'),
+      uuid: this.$cookie.get('uuid-10'),
       points: 0,
       questions: [],
       people: [],
@@ -78,9 +78,9 @@ export default {
         }
         const response = await API.put(this.apiPeopleName, '/people', init)
 
-        this.$cookie.set('nickname-9',nick, { expires: '1Y' })
+        this.$cookie.set('nickname-10',nick, { expires: '1Y' })
         this.nickname = nick
-        this.$cookie.set('uuid-9',newUuid, { expires: '1Y' })
+        this.$cookie.set('uuid-10',newUuid, { expires: '1Y' })
         this.uuid = newUuid
         this.isLoggedIn = true
 
@@ -110,7 +110,7 @@ export default {
       }    
 
       console.log(nick)
-      console.log(this.$cookie.get('uuid-9'))
+      console.log(this.$cookie.get('uuid-10'))
       this.$router.push('/prize-game').catch(err => {})
     },
     changeNickname() {

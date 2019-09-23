@@ -49,7 +49,8 @@ export default {
     },
 }
 function byPointsAndTime(a, b){
-    return b.points * 100000000000000 * b.timeStart - a.points * 100000000000000 * a.timeStart; // sort score desc
+    var d = new Date()
+    return ((b.points * 1000000000000000) + (d.getTime() - b.timeStart)) - ((a.points * 1000000000000000) + (d.getTime() - a.timeStart)); // sort score desc
 }
 </script>
 

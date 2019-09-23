@@ -39,7 +39,7 @@
                 apiName: 'pollCounterAPI',
                 apiQuestionName: 'questionAPI',
                 apiAnswerName: 'answerAPI',
-                uuid: this.$cookie.get('uuid-9'),
+                uuid: this.$cookie.get('uuid-10'),
                 points: 0,
                 questions: [],
                 answers: []
