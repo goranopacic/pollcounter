@@ -12,7 +12,12 @@
                 <li class="list-group-item question-list p-1" v-for="(option, index) in sortedArray(question.options)" :key="index">
                   {{ option.title }} 
                   <!-- {{ question.questionid }} {{ option.optionId }} -->
-                  <b-button :class="{'selected': option.selected == true}" class="ml-1 submit-btn" size="sm" variant="default"
+                  <!-- getAnswerClass(option) -->
+                  <b-button 
+                  :class="{'selected-true': option.points1 == 'success',
+                     'selected-false': option.points1 == 'invalid',
+                     'selected': option.points1 == 'default' }"
+                  class="ml-1 submit-btn" size="sm" variant="default"
                      @click="selectOption(option, question.options);answer(question.title,question.questionid,option.optionId,true,option.points)"
                   >
                     Submit
@@ -32,24 +37,83 @@
                 apiName: 'pollCounterAPI',
                 apiQuestionName: 'questionAPI',
                 apiAnswerName: 'answerAPI',
-                uuid: this.$cookie.get('uuid-5'),
+                // uuid: this.$cookie.get('uuid-5'),
                 points: 0,
-                questions: []
+                questions: [],
+                answers: []
             }
         },
         mounted () {
-            this.loadQuestions();
+            // this.loadQuestions();
+            this.loadAnswers();
         },
         methods: {
+            // getAnswerClass(option) {
+            //     // debugger;
+            //     if (option.points1 == 'success') {
+            //         return 'selected-true'
+            //     } else if (option.points1 == 'invalid') {
+            //         console.log('falseee')
+            //         return 'selected-false'
+            //     } else {
+            //         return 'selected'
+            //     }
+            // },
             loadQuestions: async function() {
-                const response = await API.get(this.apiQuestionName, '/question/all')
+                let response = await API.get(this.apiQuestionName, '/question/all')
                 for (let i in response) {
                     let questionOptions = response[i].options
-                    for (let n in questionOptions) {
-                        questionOptions[n]['selected'] = false
+                    let questionId = response[i].questionid
+                    // debugger
+
+                    for (let a in this.answers) {
+                        let answer = this.answers[a]
+                        if (answer.questionId == questionId) {
+
+                            for (let n in questionOptions) {
+                                let option = questionOptions[n]
+                                if (answer.optionId == option.optionId) {
+                                    
+                                    let points = answer.points
+                                    // console.log(questionId)
+                                    // console.log(points)
+                                    if (points > 0 || points == 0) {
+                                        if (points == 10) {
+                                            // points 10
+                                            questionOptions[n]['points1'] = 'success'
+                                        } else {
+                                            // points 0
+                                            questionOptions[n]['points1'] = 'invalid'
+                                        }
+                                    } else {
+                                        // no answer
+                                        questionOptions[n]['points1'] = 'default'
+                                    }
+
+                                }
+                            }
+   
+                        }
                     }
+                    // for (let n in questionOptions) {
+                    //     questionOptions[n]['selected'] = false
+                    // }
                 }
                 this.questions = response
+                // console.log(response)
+            },
+            loadAnswers: async function() { 
+                const answer = {
+                    body: {
+                        "person" : this.$parent.uuid//this.uuid
+                    }
+                }
+
+                const response = await API.post(this.apiAnswerName, '/answer/person', answer)
+                this.answers = response
+
+                this.loadQuestions()
+
                 // console.log(response)
             },
             sortedArray: function(array) {
@@ -59,7 +123,7 @@
 
                 const answer = {
                     body: {
-                    "person" : this.uuid,
+                    "person" : this.$parent.uuid,//this.uuid,
                     "questionId" : questionId,
                     "optionId" : optionId,
                     "points" : answerPoints
@@ -71,11 +135,19 @@
                 this.$parent.points = response.data
             },
             selectOption(option, options) {
+                // console.log(options)
                 for (let i in options) {
-                    options[i]['selected'] = false
+                    options[i]['points1'] = 'default'
                 }
-                option['selected'] = true
 
+                // debugger;
+                if (option.points > 0) {
+                    option['points1'] = 'success'
+                } else {
+                    option['points1'] = 'invalid'
+                }
+                
+                this.$forceUpdate();
                 // console.log(option)
             }
         },
@@ -92,7 +164,17 @@
 }
 
 .selected {
-    background-color: #146eb4;
+    /* background-color: #146eb4;
+    color: white; */
+}
+
+.selected-true {
+    background-color: green;
+    color: white;
+}
+
+.selected-false {
+    background-color: red;
     color: white;
 }
 </style>

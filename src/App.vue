@@ -103,7 +103,6 @@ export default {
         this.$cookie.set('nickname',nick)
         this.nickname = nick
         this.isLoggedIn = true
-
       }    
 
       console.log(nick)
@@ -126,18 +125,18 @@ export default {
     //   if (vote === 'yes') this.votesYes = response.data.Attributes.votesYes
     //   if (vote === 'no') this.votesNo = response.data.Attributes.votesNo
     // },
-    // updateVotes: async function () {
+    updateVotes: async function () {
 
-    //   const answer = {
-    //     body: {
-    //       "person" : this.uuid
-    //     }
-    //   }
+      const answer = {
+        body: {
+          "person" : this.uuid
+        }
+      }
 
-    //   const response = await API.get(this.apiPeopleName, '/people/' + this.uuid)
-    //   console.log(response)
-    //   this.points = response[0].points  
-    // },
+      const response = await API.get(this.apiPeopleName, '/people/' + this.uuid)
+      console.log(response)
+      this.points = response[0].points  
+    },
     // loadQuestions: async function() {
     //   const response = await API.get(this.apiQuestionName, '/question/all')
     //   this.questions = response
@@ -170,7 +169,7 @@ export default {
   created () {
     if (this.uuid != undefined) {
       this.isLoggedIn = true
-      // this.updateVotes()
+      this.updateVotes()
       //setInterval(this.updateVotes, 3000)
       // this.loadQuestions()
       // this.loadPeople()
