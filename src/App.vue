@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="hello"><h1>Awsome Day Belgrade 2019</h1>
+  <div id="app" class="hello"><h1>AWSome Day Belgrade 2019</h1>
     <!-- login -->
     <div v-if="!isLoggedIn" class="mt-5">
       <h4>Enter your nickname: <input ref="nameInput" v-on:keyup.enter="setnickname(nickname)" v-model="nickname" placeholder="nickname">

@@ -118,6 +118,15 @@
             },
             answer: async function(questionTitle, questionId, optionId, answerValue, answerPoints) {
 
+                console.log("A: " + this.answers)
+
+                for (let a in this.answers) {
+                    console.log("Q: " + this.answers[a].questionId)
+                    if (this.answers[a].questionId == questionId) {
+                        answerPoints = answerPoints/2;
+                    }
+                }
+
                 const answer = {
                     body: {
                     "person" : this.uuid,
