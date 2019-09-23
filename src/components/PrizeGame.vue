@@ -105,8 +105,8 @@
                     }
                 }
 
-                // const response = await API.post(this.apiAnswerName, '/answer/person', answer)
-                const response = {}
+                const response = await API.post(this.apiAnswerName, '/answer/person', answer)
+                //const response = {}
 
                 this.answers = response
                 this.loadQuestions()
