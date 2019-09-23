@@ -9,6 +9,19 @@ See the License for the specific language governing permissions and limitations 
 
 
 const AWS = require('aws-sdk')
+const https = require('https')
+const sslAgent = new https.Agent({
+  keepAlive: true,
+  maxSockets: 50,
+  rejectUnauthorized: true
+})
+sslAgent.setMaxListeners(0)
+
+AWS.config.update({
+  httpOptions: {
+    agent: sslAgent
+  }
+})
 var awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 var bodyParser = require('body-parser')
 var express = require('express')
