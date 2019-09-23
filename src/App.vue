@@ -1,57 +1,34 @@
 <template>
   <div id="app" class="hello"><h1>Awsome Day Belgrade 2019</h1>
     <!-- login -->
-    <h4 v-if="!isLoggedIn">Enter your nickname: <input v-model="nickname" placeholder="enter your nickname">
-      <b-button 
-        size="lg" 
-        variant="primary" 
-        @click="setnickname(nickname)"
-      >
-        Set nickname
-      </b-button>
-    </h4>
+    <div v-if="!isLoggedIn" class="mt-5">
+      <h4>Enter your nickname: <input ref="nameInput" v-on:keyup.enter="setnickname(nickname)" v-model="nickname" placeholder="nickname">
+        <b-button 
+          variant="primary"
+          class="ml-2 aws-color"
+          @click="setnickname(nickname)"
+        >
+          Set nickname
+        </b-button>
+      </h4>
+    </div>
     
     <!-- content -->
     <div v-if="isLoggedIn">
-      <h4 v-if="isLoggedIn">Hi {{ nickname }}!</h4>
+      <h4 class="mt-4" v-if="isLoggedIn"><span @click="changeNickname">Hi {{ nickname }}!</span></h4>
+      <h4><b>Points: {{ points }}</b></h4>
 
-        <div class="mt-2 mb-3">
+
+        <div class="mt-4 mb-3">
           <router-link class="p-2 rt-link" to="/agenda">Agenda</router-link>
-          <router-link class="p-2 rt-link" to="/prize-game">Prize Game</router-link>
-          <router-link class="p-2 rt-link" to="/high-score">High Score</router-link>
-          <router-link class="p-2 rt-link" to="/aws-ug-belgrade">AWS UG Belgrade</router-link>
+          <router-link class="p-2 rt-link" to="/prize-game">Game</router-link>
+          <router-link class="p-2 rt-link" to="/high-score">Score</router-link>
+          <router-link class="p-2 rt-link" to="/aws-ug-belgrade">AWS UG</router-link>
         </div>
 
+        <hr/>
         <router-view></router-view>
-
-      <!-- <b-row align-h="center" class="mt-5">
-        <ul id="example-1">
-          <li v-for="question in sortedArray(questions)">
-
-            {{ question.title }}  
-            
-                <ul id="example-2">
-                <li v-for="option in sortedArray(question.options)">
-                  {{ option.title }} {{ question.questionid }} {{ option.optionId }}
-                  <b-button size="lg" variant="primary" @click="answer(question.title,question.questionid,option.optionId,true,option.points)">Button</b-button>
-                </li>
-              </ul>
-
-          </li>
-        </ul>
-      </b-row>
-
-      <b-row align-h="center" class="mt-5">
-        <ul id="toplist">
-          <li v-for="person in sortedArrayPoints(people)">
-            {{ person.nickname }} {{ person.points }} 
-          </li>
-        </ul>
-      </b-row> -->
     </div>
-
-
-
   </div>  
 </template>
 
@@ -70,13 +47,9 @@ export default {
       uuid: this.$cookie.get('uuid-5'),
       points: 0,
       questions: [],
-      people: []
+      people: [],
+      isLoggedIn: false,
     }
-  },
-  computed: {
-      isLoggedIn() {
-          return this.$cookie.get('uuid-5') ? true : false
-      },
   },
   methods: {
     // sortedArrayPoints: function(array) {
@@ -85,6 +58,9 @@ export default {
     // sortedArray: function(array) {
     //   return _.orderBy(array,'ordinalNo','asc');
     // },
+   focusInput() {
+      this.$refs.nameInput.focus();
+    },
     setnickname: async function(nick) {
 
       if (this.uuid == undefined) {
@@ -103,6 +79,7 @@ export default {
         this.nickname = nick
         this.$cookie.set('uuid-5',newUuid, { expires: '1Y' })
         this.uuid = newUuid
+        this.isLoggedIn = true
 
         // this.loadQuestions()
 
@@ -125,11 +102,19 @@ export default {
 
         this.$cookie.set('nickname',nick)
         this.nickname = nick
+        this.isLoggedIn = true
 
       }    
 
       console.log(nick)
       console.log(this.$cookie.get('uuid-5'))
+      this.$router.push('/prize-game').catch(err => {})
+    },
+    changeNickname() {
+      this.uuid = undefined
+      this.nickname = ''
+      this.points = 0
+      this.isLoggedIn = false
     },
     // vote: async function (vote) {
     //   const init = {
@@ -184,6 +169,7 @@ export default {
   },
   created () {
     if (this.uuid != undefined) {
+      this.isLoggedIn = true
       // this.updateVotes()
       //setInterval(this.updateVotes, 3000)
       // this.loadQuestions()
@@ -215,5 +201,11 @@ export default {
 .router-link-active {
   background-color: #FF9900;
   color: black;
+}
+
+.aws-color {
+  background-color: #FF9900 !important;
+  color: black !important;
+  border: 0 !important;
 }
 </style>

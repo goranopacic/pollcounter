@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="p-3">
         <table class="table table-bordered">
             <tbody>
                 <tr>

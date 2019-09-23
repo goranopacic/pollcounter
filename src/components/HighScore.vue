@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <b-row align-h="center" class="mt-5">
+    <div class="p-3">
+        <b-row align-h="center" class="mt-3">
             <ul id="toplist list-group">
             <li 
                 class="list-group-item"

@@ -20,6 +20,12 @@ var VueCookie = require('vue-cookie');
 Vue.use(VueCookie)
 
 const routes = [
+  {
+    path: '/',
+    redirect: () => {
+      return '/prize-game'
+    }
+  },
   { 
     path: '/agenda',
     component: Agenda

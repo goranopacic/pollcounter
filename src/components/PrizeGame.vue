@@ -1,29 +1,21 @@
 <template>
-    <div>
-    <b-row align-h="center" class="mt-5">
-        <ul id="list-group example-1">
-          <li class="list-group-item" v-for="question in sortedArray(questions)">
-
-            {{ question.title }}  
-            
-                <ul id="example-2 list-group">
-                <li class="list-group-item" v-for="option in sortedArray(question.options)">
-                  {{ option.title }} {{ question.questionid }} {{ option.optionId }}
-                  <b-button size="sm" variant="primary" @click="answer(question.title,question.questionid,option.optionId,true,option.points)">Button</b-button>
+    <div class="p-3">
+      <b-row v-for="question in sortedArray(questions)" :key="question.title" class="mt-1">
+        <b-col class="question-section">
+            <b>{{ question.title }} </b>
+            <ul id="example-2 list-group">
+                <li class="list-group-item question-list p-1" v-for="(option, index) in sortedArray(question.options)" :key="index">
+                  {{ option.title }} 
+                  <!-- {{ question.questionid }} {{ option.optionId }} -->
+                  <b-button :class="{'selected': option.selected == true}" class="ml-1 submit-btn" size="sm" variant="default"
+                     @click="selectOption(option, question.options);answer(question.title,question.questionid,option.optionId,true,option.points)"
+                  >
+                    Submit
+                  </b-button>
                 </li>
               </ul>
-
-          </li>
-        </ul>
+        </b-col>
       </b-row>
-
-      <!-- <b-row align-h="center" class="mt-5">
-        <ul id="toplist">
-          <li v-for="person in sortedArrayPoints(people)">
-            {{ person.nickname }} {{ person.points }} 
-          </li>
-        </ul>
-      </b-row> -->
     </div>
 </template>
 
@@ -33,33 +25,28 @@
         data() {
             return {
                 apiName: 'pollCounterAPI',
-                // apiPeopleName: 'peopleAPI',
                 apiQuestionName: 'questionAPI',
                 apiAnswerName: 'answerAPI',
-                //   nickname: this.$cookie.get('nickname-5'),
                 uuid: this.$cookie.get('uuid-5'),
                 points: 0,
-                questions: [],
-                // people: []
+                questions: []
             }
         },
         mounted () {
             this.loadQuestions();
         },
         methods: {
-            // loadPeople: async function() {
-            //     const response = await API.get(this.apiPeopleName, '/people/all')
-            //     this.people = response
-            //     console.log(response)
-            // },
             loadQuestions: async function() {
                 const response = await API.get(this.apiQuestionName, '/question/all')
+                for (let i in response) {
+                    let questionOptions = response[i].options
+                    for (let n in questionOptions) {
+                        questionOptions[n]['selected'] = false
+                    }
+                }
                 this.questions = response
-                console.log(response)
+                // console.log(response)
             },
-            // sortedArrayPoints: function(array) {
-            //     return _.orderBy(array,'points','desc');
-            // },
             sortedArray: function(array) {
                 return _.orderBy(array,'ordinalNo','asc');
             },
@@ -76,13 +63,31 @@
 
                 const response = await API.post(this.apiAnswerName, '/answer',answer)
                 this.points = response.data
+                this.$parent.points = response.data
+            },
+            selectOption(option, options) {
+                for (let i in options) {
+                    options[i]['selected'] = false
+                }
+                option['selected'] = true
 
-                // this.loadPeople()
+                // console.log(option)
             }
         },
     }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+.question-list {
+    border: none !important;
+}
 
+.submit-btn {
+    background-color: #ddd;
+}
+
+.selected {
+    background-color: #146eb4;
+    color: white;
+}
 </style>
