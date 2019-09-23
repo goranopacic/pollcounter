@@ -71,7 +71,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "pollcounter-dev-20190921135348-deployment",
-					"S3Key": "amplify-builds/questionFunction-1569157886-latest-build.zip"
+					"S3Key": "amplify-builds/questionFunction-1569250773-latest-build.zip"
 				}
 			}
 		},

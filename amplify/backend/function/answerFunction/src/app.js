@@ -186,6 +186,31 @@ app.put(path, function(req, res) {
 * HTTP post method for insert object *
 *************************************/
 
+app.post(path + "/person", function(req, res) {
+
+  
+  var queryParams = {
+    TableName : tableName,
+    KeyConditionExpression: "#person = :person",
+    ExpressionAttributeNames:{
+        "#person": "person"
+    },
+    ExpressionAttributeValues: {
+        ":person": req.body.person
+    },
+    ConsistentRead: true
+  }
+
+  dynamodb.query(queryParams, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json({error: 'Could not load items: ' + err});
+    } else {
+      res.json(data.Items);
+    }
+  });
+});
+
 app.post(path, function(req, res) {
   
   if (userIdPresent) {
