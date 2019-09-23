@@ -10,7 +10,7 @@
         <br/> <a href="https://madabout.cloud/2019/05/22/aws-ug-belgrade-meetup1-report/">Meetup 1 report</a>
         <br/><a href="https://madabout.cloud/2019/07/12/aws-user-group-belgrade-meetup-2-security/">Meetup 2 report</a>
         <br/><br/>
-        <a href="https://madabout.cloud/2019/05/22/aws-ug-belgrade-meetup1-report/"><img src="https://i2.wp.com/madabout.cloud/wp-content/uploads/2019/05/viber_slika_2019-05-21_22-05-393.jpg?w=1280&ssl=1" width="600" height="400"/></a>
+        <a href="https://madabout.cloud/2019/05/22/aws-ug-belgrade-meetup1-report/"><img src="https://i2.wp.com/madabout.cloud/wp-content/uploads/2019/05/viber_slika_2019-05-21_22-05-393.jpg?w=1280&ssl=1" width="500" height="320"/></a>
         <br/>
         <br/>
         <iframe width="560" height="315" src="https://www.youtube.com/embed/YPavajz_PBc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
