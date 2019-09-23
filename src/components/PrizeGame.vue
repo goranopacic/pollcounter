@@ -1,5 +1,10 @@
 <template>
-    <div class="p-3">
+    <div class="pl-3 pr-3">
+        <b-row>
+            <b-col>
+                text
+            </b-col>
+        </b-row>
       <b-row v-for="question in sortedArray(questions)" :key="question.title" class="mt-1">
         <b-col class="question-section">
             <b>{{ question.title }} </b>

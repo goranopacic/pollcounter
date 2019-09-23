@@ -1,19 +1,24 @@
 <template>
-    <div class="p-3">
-        <b-row align-h="center" class="mt-3">
-            <ul id="toplist list-group">
-            <li 
-                class="list-group-item"
-                v-for="(person, index) in sortedArrayPoints(people)"
-                :key="index"
-            >
-                <span :class="{'win': index==0}">
-                    {{index+1 + '.'}} {{ person.nickname }} {{ person.points }} 
-                </span>
-                
-            </li>
-            </ul>
-        </b-row>
+    <div class="pl-3 pr-3">
+        <table class="table">
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nickname</th>
+                <th scope="col">Points</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr
+                    v-for="(person, index) in people"
+                    :key="person.uuid"
+                >
+                <th scope="row">{{index+1}}</th>
+                <td>{{ person.nickname }}</td>
+                <td>{{ person.points }}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </template>
 
@@ -34,7 +39,7 @@ export default {
     methods: {
         loadPeople: async function() {
             const response = await API.get(this.apiPeopleName, '/people/all')
-            this.people = response
+            this.people = this.sortedArrayPoints(response)
             console.log(response)
         },
         sortedArrayPoints: function(array) {
