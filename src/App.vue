@@ -111,10 +111,10 @@ export default {
       this.$router.push('/prize-game').catch(err => {})
     },
     changeNickname() {
-      this.uuid = undefined
-      this.nickname = ''
-      this.points = 0
-      this.isLoggedIn = false
+      //this.uuid = undefined
+      //this.nickname = ''
+      //this.points = 0
+      //this.isLoggedIn = false
     },
     // vote: async function (vote) {
     //   const init = {
