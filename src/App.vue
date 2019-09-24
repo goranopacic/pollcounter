@@ -17,6 +17,9 @@
     <div v-if="isLoggedIn">
       <h4 class="mt-4" v-if="isLoggedIn"><span @click="changeNickname">Hi {{ nickname }}!</span></h4>
       <h4><b>Points: {{ points }}</b></h4>
+      <b><b>GAME OVER<br/><br/>
+                Pick your t-shirts at Community booth
+                <br/><br/><br/><br/></b>
 
 
         <div class="mt-4 mb-3">

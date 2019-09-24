@@ -2,7 +2,10 @@
     <div class="pl-3 pr-3">
         <b-row>
             <b-col>
-                <b>1 book - Serverless Applications with Node.js by Slobodan Stojanovic and Aleksandar Simovic - AWS Serverless Heroes<br/>
+                <b>GAME OVER<br/><br/>
+                Pick your t-shirts at Community booth
+                <br/><br/><br/><br/>
+                 book - Serverless Applications with Node.js by Slobodan Stojanovic and Aleksandar Simovic - AWS Serverless Heroes<br/>
                 10 T-shirts with AWS logo<br/>
                 correct answer 10 points, wrong answer 0, second attempt correct answer - 5 points, time to answer calculated. Game ends at 1:30 PM</b><br/><br/><br/><br/>
             </b-col>
